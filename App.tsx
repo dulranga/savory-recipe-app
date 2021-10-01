@@ -1,20 +1,20 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import Font, { useFonts } from "expo-font";
+import { NavigationContainer } from "@react-navigation/native";
+import { useFonts } from "expo-font";
+import React from "react";
 import {
   ActivityIndicator,
   ScrollView,
-  StyleSheet,
-  Text,
   StatusBar as RNStatusBar,
+  StyleSheet,
   View,
 } from "react-native";
-import { GoOnScreen } from "@screens";
-import { colors } from "@constants";
+import { colors, Fonts } from "./src/constants";
+import { SignUpNavigation } from "./src/navigations";
 
 export default function App() {
   const [loaded] = useFonts({
-    Inter: require("@assets/fonts/inter.ttf"),
+    [Fonts.PRIMARY]: require("./src/assets/fonts/inter.ttf"),
+    [Fonts.PRIMARY_BOLD]: require("./src/assets/fonts/static/Inter-ExtraBold.ttf"),
   });
 
   if (!loaded)
@@ -26,7 +26,9 @@ export default function App() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <GoOnScreen />
+      <NavigationContainer>
+        <SignUpNavigation />
+      </NavigationContainer>
     </ScrollView>
   );
 }
@@ -36,7 +38,5 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: RNStatusBar.currentHeight,
     backgroundColor: colors.background,
-    alignItems: "center",
-    justifyContent: "center",
   },
 });

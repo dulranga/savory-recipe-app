@@ -3,7 +3,7 @@
     "name": "Savory",
     "slug": "savory",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./src/assets/icon.png",
     "splash": {
       "image": "./src/assets/splash.png",

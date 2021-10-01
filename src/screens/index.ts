@@ -1,3 +1,4 @@
+import DietSelectorScreen from "./DietSelectorScreen";
 import GoOnScreen from "./GoOnScreen";
-
-export { GoOnScreen };
+import SignUpScreen from "./SignUpScreen";
+export { GoOnScreen, SignUpScreen, DietSelectorScreen };

@@ -12,6 +12,7 @@ import { colors, Fonts } from "./src/constants";
 import { SignUpNavigation } from "./src/navigations";
 
 export default function App() {
+  console.log("=======================");
   const [loaded] = useFonts({
     [Fonts.PRIMARY]: require("./src/assets/fonts/inter.ttf"),
     [Fonts.PRIMARY_BOLD]: require("./src/assets/fonts/static/Inter-ExtraBold.ttf"),

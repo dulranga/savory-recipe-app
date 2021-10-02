@@ -12,6 +12,7 @@
     "@react-native-community/checkbox": "^0.5.8",
     "@react-native-community/hooks": "^2.6.0",
     "@react-navigation/native-stack": "^6.2.2",
+    "@types/styled-components-react-native": "^5.1.1",
     "expo": "~42.0.1",
     "expo-status-bar": "~1.0.4",
     "react": "16.13.1",

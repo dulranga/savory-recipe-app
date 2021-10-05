@@ -9,11 +9,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { colors, Fonts, other } from "../constants";
 import { Links } from "./GoOnScreen";
 import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { SignInButtonProps } from "../components/SigninButton";
-import Screens, { RootStackParamList } from "../constants/screens";
+import { colors, Fonts, other, Screens } from "../../constants";
+import ContinueButton from "../../components/ContinueButton";
+import { SignInButtonProps } from "../../components/SigninButton";
+import { RootStackParamList } from "../../constants/screens";
 
 export type SignUpScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -73,21 +74,11 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
             older, will receive email updates, promotions and special offers.
           </Text>
         </View>
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.8}
+        <ContinueButton
+          style={{ marginTop: 10 }}
           onPress={sendData}
-        >
-          <Text
-            style={{
-              fontSize: 18,
-              fontFamily: Fonts.PRIMARY,
-              color: "#fff",
-            }}
-          >
-            Join Us
-          </Text>
-        </TouchableOpacity>
+          customText={"Join Us"}
+        />
       </View>
       <Links buttons={signInButtons} style={{ marginTop: 20 }} />
     </ScrollView>

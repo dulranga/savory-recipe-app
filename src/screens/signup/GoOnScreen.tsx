@@ -10,10 +10,10 @@ import {
   View,
   ViewStyle,
 } from "react-native";
-import SignInButton, { SignInButtonProps } from "../components/SigninButton";
-import Testimonial from "../components/Testimonial";
-import { colors, Fonts, other, Screens } from "../constants";
-import { RootStackParamList } from "../constants/screens";
+import SignInButton, { SignInButtonProps } from "../../components/SigninButton";
+import Testimonial from "../../components/Testimonial";
+import { colors, Fonts, other, Screens } from "../../constants";
+import { RootStackParamList } from "../../constants/screens";
 
 type GoOnScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -60,7 +60,7 @@ const GoOnScreen: FC<GoOnScreenProps> = ({ navigation }) => {
     >
       <View style={styles.container}>
         <Image
-          source={require("../assets/images/logo.png")}
+          source={require("../../assets/images/logo.png")}
           style={styles.logo}
           resizeMode="contain"
         />
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   header: {
     fontFamily: Fonts.PRIMARY_BOLD,
     fontSize: 30,
-    fontWeight: "700",
+
     textAlign: "center",
     marginBottom: 10,
   },

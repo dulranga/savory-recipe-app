@@ -6,12 +6,12 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useDeviceOrientation } from "@react-native-community/hooks";
 import styled from "styled-components/native";
 
-type Props = NativeStackHeaderProps & { description?: string };
+type Props = NativeStackHeaderProps & { instructions?: string };
 
 const SignupHeader: React.FC<Props> = ({
   navigation,
   options,
-  description,
+  instructions,
 }) => {
   const { portrait } = useDeviceOrientation();
 
@@ -28,7 +28,7 @@ const SignupHeader: React.FC<Props> = ({
         onPress={navigation.goBack}
       />
       <Header portrait={portrait}>{options.title}</Header>
-      <Description>{description}</Description>
+      {instructions && <Description>{instructions}</Description>}
     </Container>
   );
 };

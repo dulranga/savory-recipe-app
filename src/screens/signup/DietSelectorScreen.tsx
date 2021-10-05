@@ -1,4 +1,5 @@
 import { useDeviceOrientation } from "@react-native-community/hooks";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useEffect, useState } from "react";
 import {
   FlatList,
@@ -8,34 +9,40 @@ import {
   VirtualizedList,
 } from "react-native";
 import styled from "styled-components/native";
+import ContinueButton from "../../components/ContinueButton";
 import RecipeMini, {
   AddedRecipe,
   RecipeMiniProps,
-} from "../components/RecipeMini";
-import { colors, Fonts, other } from "../constants";
+} from "../../components/RecipeMini";
+import { colors, Fonts, other, Screens } from "../../constants";
+import { RootStackParamList } from "../../constants/screens";
 
-export interface DietSelectorProps {}
 const recipes: RecipeMiniProps[] = [
   {
     count: 10002,
-    image: require("../assets/images/cat.png"),
+    image: require("../../assets/images/cat.png"),
     title: "Hello 1",
     id: 1,
   },
   {
     count: 10002,
-    image: require("../assets/images/bag_yellow.jpg"),
+    image: require("../../assets/images/bag_yellow.jpg"),
     title: "Hello 2",
     id: 2,
   },
   {
     count: 10002,
-    image: require("../assets/images/bag_brown.jpg"),
+    image: require("../../assets/images/bag_brown.jpg"),
     title: "Hello 3",
     id: 3,
   },
 ];
-const DietSelectorScreen: React.FC<DietSelectorProps> = () => {
+
+export type DietSelectorProps = NativeStackScreenProps<
+  RootStackParamList,
+  Screens.DIET_SELECTOR_SCREEN
+>;
+const DietSelectorScreen: React.FC<DietSelectorProps> = ({ navigation }) => {
   const { portrait } = useDeviceOrientation();
 
   const [selectedRecipes, setSelectedRecipes] = useState<number[]>([]);
@@ -47,6 +54,7 @@ const DietSelectorScreen: React.FC<DietSelectorProps> = () => {
   const removeRecipe = (id: number) =>
     setSelectedRecipes((prev) => prev.filter((eachId) => eachId !== id));
 
+  const goForward = () => navigation.navigate(Screens.DISLIKES);
   return (
     <Container portrait={portrait}>
       <ScrollView
@@ -78,22 +86,16 @@ const DietSelectorScreen: React.FC<DietSelectorProps> = () => {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ justifyContent: "center" }}
         />
-        <Continue activeOpacity={0.8} disabled>
-          <Text
-            style={{
-              color: colors.background,
-              fontFamily: Fonts.PRIMARY_BOLD,
-              fontSize: 20,
-            }}
-          >
-            Continue
-          </Text>
-        </Continue>
+
+        <ContinueButton onPress={goForward} />
       </View>
     </Container>
   );
 };
 
+export interface ContainerProps {
+  portrait?: boolean;
+}
 const Container = styled.View`
   padding-left: ${other.buttonPadding}px;
   padding-right: ${other.buttonPadding}px;
@@ -102,7 +104,8 @@ const Container = styled.View`
   min-width: 100%;
   position: relative;
   padding-bottom: ${other.buttonPadding}px;
-  flex-direction: ${(props) => (props.portrait ? "column" : "row")};
+  flex-direction: ${(props: ContainerProps) =>
+    props.portrait ? "column" : "row"};
 `;
 const Continue = styled.TouchableOpacity`
   width: 100%;

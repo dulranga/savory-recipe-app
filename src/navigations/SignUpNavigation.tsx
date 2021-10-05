@@ -2,7 +2,54 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import SignupHeader from "../components/SignupHeader";
 import { Screens } from "../constants";
-import { DietSelectorScreen, GoOnScreen, SignUpScreen } from "../screens";
+import {
+  DietSelectorScreen,
+  DislikesScreen,
+  GoOnScreen,
+  MotivationScreen,
+  SignUpScreen,
+} from "../screens/signup";
+import TermsScreen from "../screens/signup/TermsScreen";
+
+interface ScreenProps {
+  name: Screens;
+  component: React.FC<any>;
+  title: string;
+  instructions?: string;
+}
+const screens: ScreenProps[] = [
+  {
+    name: Screens.DIET_SELECTOR_SCREEN,
+    component: DietSelectorScreen,
+    title: "What kind of recipes do you like to see in your feed?",
+    instructions: "Tap at least 2",
+  },
+  {
+    name: Screens.SIGN_UP_SCREEN,
+    component: SignUpScreen,
+    title: "Join Us",
+    instructions:
+      "Create an account so you can stay up to date with awesome recipes",
+  },
+  {
+    name: Screens.DISLIKES,
+    component: DislikesScreen,
+    title: "Any dislikes?",
+    instructions: "Tap the ingredients you don’t like",
+  },
+  {
+    name: Screens.MOTIVATIONAL,
+    component: MotivationScreen,
+    title: "What is your goal?",
+    instructions:
+      "Tap to choose the reasons that suit you best. Keep an eye on them once in a while to refresh",
+  },
+  {
+    name: Screens.TERMS,
+    component: TermsScreen,
+    title: "Terms & Conditions",
+  },
+];
 
 export interface SignUpNavigationProps {}
 
@@ -16,30 +63,19 @@ const SignUpNavigation: React.FC<SignUpNavigationProps> = () => {
         component={GoOnScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name={Screens.DIET_SELECTOR_SCREEN}
-        component={DietSelectorScreen}
-        options={{
-          title: "What kind of recipes do you like to see in your feed?",
-          header: (props) => (
-            <SignupHeader {...props} description="Tap at least 2" />
-          ),
-        }}
-      />
-      <Stack.Screen
-        name={Screens.SIGN_UP_SCREEN}
-        component={SignUpScreen}
-        options={{
-          title: "Join Us",
-          header: (props) => (
-            <SignupHeader
-              {...props}
-              description="Create an account so you can stay up
-        to date with awesome recipes"
-            />
-          ),
-        }}
-      />
+      {screens.map((screen, key) => (
+        <Stack.Screen
+          key={`screen-${key}`}
+          name={screen.name}
+          component={screen.component}
+          options={{
+            title: screen.title,
+            header: (props) => (
+              <SignupHeader {...props} instructions={screen.instructions} />
+            ),
+          }}
+        />
+      ))}
     </Stack.Navigator>
   );
 };

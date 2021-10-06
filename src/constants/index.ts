@@ -1,6 +1,4 @@
-import colors from "./colors";
-import Fonts from "./fonts";
-import other from "./other";
-import Screens from "./screens";
-
-export { colors, other, Fonts, Screens };
+export { default as colors } from "./colors";
+export { default as other } from "./other";
+export { default as Fonts } from "./fonts";
+export { default as Screens } from "./screens";

@@ -1,3 +1,1 @@
-import SignUpNavigation from "./SignUpNavigation";
-
-export { SignUpNavigation };
+export { default as SignUpNavigation } from "./SignUpNavigation";

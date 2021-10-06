@@ -1,21 +1,19 @@
 import { useDeviceOrientation } from "@react-native-community/hooks";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useEffect, useState } from "react";
-import {
-  FlatList,
-  ScrollView,
-  Text,
-  View,
-  VirtualizedList,
-} from "react-native";
+import React from "react";
+import { FlatList, ScrollView, View } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
+import { Absolute } from "../../components/Common";
 import ContinueButton from "../../components/ContinueButton";
 import RecipeMini, {
   AddedRecipe,
   RecipeMiniProps,
 } from "../../components/RecipeMini";
-import { colors, Fonts, other, Screens } from "../../constants";
+import { colors, other, Screens } from "../../constants";
 import { RootStackParamList } from "../../constants/screens";
+import { RootState } from "../../store";
+import { addDiet, removeDiet } from "../../store/action-creators/signUpActions";
 
 const recipes: RecipeMiniProps[] = [
   {
@@ -44,15 +42,14 @@ export type DietSelectorProps = NativeStackScreenProps<
 >;
 const DietSelectorScreen: React.FC<DietSelectorProps> = ({ navigation }) => {
   const { portrait } = useDeviceOrientation();
+  const dispatch = useDispatch();
 
-  const [selectedRecipes, setSelectedRecipes] = useState<number[]>([]);
-  useEffect(() => {
-    console.log({ selectedRecipes });
-  }, [selectedRecipes]);
+  const selectedRecipes = useSelector<RootState, number[]>(
+    (state) => state.signUp.selectedDiets
+  );
 
-  const addRecipe = (id: number) => setSelectedRecipes((prev) => [...prev, id]);
-  const removeRecipe = (id: number) =>
-    setSelectedRecipes((prev) => prev.filter((eachId) => eachId !== id));
+  const addRecipe = (id: number) => dispatch(addDiet(id));
+  const removeRecipe = (id: number) => dispatch(removeDiet(id));
 
   const goForward = () => navigation.navigate(Screens.DISLIKES);
   return (
@@ -75,6 +72,7 @@ const DietSelectorScreen: React.FC<DietSelectorProps> = ({ navigation }) => {
           )}
         />
       </ScrollView>
+
       <View style={{ flex: portrait ? 0.3 : 0.8 }}>
         <AddedRecipes
           data={recipes.filter((recipe) => selectedRecipes.includes(recipe.id))}
@@ -82,7 +80,7 @@ const DietSelectorScreen: React.FC<DietSelectorProps> = ({ navigation }) => {
             <AddedRecipe remove={removeRecipe} id={item?.id} {...item} />
           )}
           horizontal
-          keyExtractor={(item, index) => `Added-Recipe-${index}`}
+          keyExtractor={(_, index) => `Added-Recipe-${index}`}
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ justifyContent: "center" }}
         />
@@ -106,15 +104,6 @@ const Container = styled.View`
   padding-bottom: ${other.buttonPadding}px;
   flex-direction: ${(props: ContainerProps) =>
     props.portrait ? "column" : "row"};
-`;
-const Continue = styled.TouchableOpacity`
-  width: 100%;
-  background-color: ${colors.primary};
-  align-items: center;
-  border-radius: ${other.borderRadius}px;
-  padding: 10px;
-  justify-content: center;
-  flex: 1;
 `;
 const AddedRecipes = styled.FlatList`
   /* flex: 0.2; */

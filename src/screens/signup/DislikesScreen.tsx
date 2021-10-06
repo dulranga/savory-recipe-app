@@ -12,6 +12,7 @@ import {
   View,
 } from "react-native";
 import styled from "styled-components/native";
+import { Absolute } from "../../components/Common";
 import ContinueButton from "../../components/ContinueButton";
 import { colors, Fonts, other } from "../../constants";
 import Screens, { RootStackParamList } from "../../constants/screens";
@@ -39,13 +40,15 @@ const DislikesScreen: React.FC<DislikesProps> = ({ navigation }) => {
           keyExtractor={(item, index) => index + ""}
         />
       </Ingredients>
-      <ContinueButton
-        style={{
-          flex: portrait ? 0.05 : 0.5,
-          marginHorizontal: other.buttonPadding,
-        }}
-        onPress={goForward}
-      />
+      <Absolute>
+        <ContinueButton
+          style={{
+            flex: portrait ? 0.05 : 0.5,
+            marginHorizontal: other.buttonPadding,
+          }}
+          onPress={goForward}
+        />
+      </Absolute>
     </Container>
   );
 };
@@ -114,4 +117,5 @@ const Font = styled.Text`
   padding-bottom: 5px;
   border-radius: 10px;
 `;
+
 export default DislikesScreen;

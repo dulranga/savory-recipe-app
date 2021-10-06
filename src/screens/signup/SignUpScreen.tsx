@@ -1,28 +1,35 @@
-import React, { useEffect, useState } from "react";
 import CheckBox from "@react-native-community/checkbox";
+import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
+import React from "react";
 import {
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TextInputProps,
-  TouchableOpacity,
   View,
 } from "react-native";
-import { Links } from "./GoOnScreen";
-import { NativeStackScreenProps } from "@react-navigation/native-stack/lib/typescript/src/types";
-import { colors, Fonts, other, Screens } from "../../constants";
+import { useDispatch, useSelector } from "react-redux";
 import ContinueButton from "../../components/ContinueButton";
 import { SignInButtonProps } from "../../components/SigninButton";
+import { colors, Fonts, other, Screens } from "../../constants";
 import { RootStackParamList } from "../../constants/screens";
+import { RootState } from "../../store";
+import { editCredentails } from "../../store/action-creators/signUpActions";
+import { SignUpState } from "../../store/reducers/signUpReducer";
+import { Links } from "./GoOnScreen";
 
 export type SignUpScreenProps = NativeStackScreenProps<
   RootStackParamList,
   Screens.SIGN_UP_SCREEN
 >;
+type Credentials = SignUpState["credentials"];
 
 const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
-  const [creadentials, setCreadentials] = useState({});
+  const initialCredentials = useSelector<RootState, Credentials>(
+    (state) => state.signUp.credentials
+  );
+  const dispatch = useDispatch();
 
   const signInButtons: SignInButtonProps[] = [
     {
@@ -40,8 +47,8 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
     { color: "#1DA1F2", icon: "twitter", label: "Twitter", onClick: () => {} },
   ];
 
-  const getInputs = (key: string) => (value: any) => {
-    setCreadentials((prev) => ({ ...prev, [key]: value }));
+  const getInputs = (key: keyof Credentials) => (value: any) => {
+    dispatch(editCredentails({ [key]: value }));
   };
 
   const navigate = (screen: Screens) => () => {
@@ -49,7 +56,6 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
   };
 
   const sendData = async () => {
-    console.log(creadentials);
     navigation.navigate(Screens.DIET_SELECTOR_SCREEN);
   };
 
@@ -62,12 +68,14 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
             style={styles.input}
             placeholderTextColor={colors.darkGrey}
             onChangeText={getInputs(input.key)}
+            defaultValue={initialCredentials[input.key].toString()}
           />
         ))}
         <View style={styles.policy}>
           <CheckBox
             tintColors={{ true: colors.primary }}
-            onValueChange={getInputs("policy")}
+            onValueChange={getInputs("agreedToPolicy")}
+            value={initialCredentials.agreedToPolicy}
           />
           <Text style={styles.disclaimer}>
             By joining Savory you agree that you are over 18 years of age or
@@ -136,7 +144,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const inputs: TextInputProps & { key: string }[] = [
+const inputs: TextInputProps & { key: keyof Credentials }[] = [
   {
     placeholder: "First and last name",
     key: "full_name",

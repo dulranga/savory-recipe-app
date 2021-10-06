@@ -8,8 +8,10 @@ import {
   StyleSheet,
   View,
 } from "react-native";
+import { Provider } from "react-redux";
 import { colors, Fonts } from "./src/constants";
 import { SignUpNavigation } from "./src/navigations";
+import store from "./src/store";
 
 export default function App() {
   console.log("=======================");
@@ -26,11 +28,13 @@ export default function App() {
     );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <NavigationContainer>
-        <SignUpNavigation />
-      </NavigationContainer>
-    </ScrollView>
+    <Provider store={store}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <NavigationContainer>
+          <SignUpNavigation />
+        </NavigationContainer>
+      </ScrollView>
+    </Provider>
   );
 }
 

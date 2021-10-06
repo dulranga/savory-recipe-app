@@ -4,6 +4,21 @@ export interface EditCredentailsAction {
   type: SignUpActions.EDIT_CREDENTIALS;
   payload: object;
 }
+export interface EditIDAction {
+  type:
+    | SignUpActions.ADD_DIET
+    | SignUpActions.REMOVE_DIET
+    | SignUpActions.REMOVE_DISLIKE
+    | SignUpActions.ADD_DISLIKE
+    | SignUpActions.ADD_GOAL
+    | SignUpActions.REMOVE_GOAL;
+  payload: number;
+}
+
+export interface editCustomGoalsAction {
+  type: SignUpActions.EDIT_CUSTOM_GOAL;
+  payload: string;
+}
 
 export const editCredentails = (credentials = {}) => {
   return {
@@ -11,15 +26,6 @@ export const editCredentails = (credentials = {}) => {
     payload: credentials,
   };
 };
-
-export interface EditDietsAction {
-  type:
-    | SignUpActions.ADD_DIET
-    | SignUpActions.REMOVE_DIET
-    | SignUpActions.REMOVE_DISLIKE
-    | SignUpActions.ADD_DISLIKE;
-  payload: number;
-}
 
 export const addDiet = (recipe: number) => ({
   type: SignUpActions.ADD_DIET,
@@ -38,4 +44,16 @@ export const removeDislike = (id: number) => ({
 export const addDislike = (id: number) => ({
   type: SignUpActions.ADD_DISLIKE,
   payload: id,
+});
+export const addGoal = (id: number) => ({
+  type: SignUpActions.ADD_GOAL,
+  payload: id,
+});
+export const removeGoal = (id: number) => ({
+  type: SignUpActions.REMOVE_GOAL,
+  payload: id,
+});
+export const editGoal = (text: string) => ({
+  type: SignUpActions.EDIT_CUSTOM_GOAL,
+  payload: text,
 });

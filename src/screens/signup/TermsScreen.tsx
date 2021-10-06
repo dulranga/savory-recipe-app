@@ -1,21 +1,51 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components/native";
 import ContinueButton, { Font } from "../../components/ContinueButton";
 import { colors, Fonts, other } from "../../constants";
 import Screens, { RootStackParamList } from "../../constants/screens";
+import { login } from "../../store/action-creators/authActions";
+import Modal from "react-native-modal";
+import { Image } from "react-native";
 
 type TermsScreenProps = NativeStackScreenProps<
   RootStackParamList,
   Screens.DISLIKES
 >;
 const TermsScreen: React.FC<TermsScreenProps> = ({ navigation }) => {
+  const goStart = () => navigation.navigate(Screens.GO_ON_SCREEN);
   const goHome = () => navigation.navigate(Screens.GO_ON_SCREEN);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-
+  const authenticate = () => {
+    dispatch(login());
+    setLoading((prev) => !prev);
+  };
   return (
     <Container>
       <Header>By continuing, you agree to our agreement</Header>
+      <Modal
+        isVisible={loading}
+        animationIn="fadeInUp"
+        animationOut="slideOutDown"
+      >
+        <Signed>
+          <Image
+            source={require("../../assets/images/burger.png")}
+            style={{ width: 200, height: 200, alignSelf: "center" }}
+            resizeMode="contain"
+          />
+          <Font style={{ color: colors.black, fontSize: 35 }}>Signed In</Font>
+          <GoForward onPress={goHome}>
+            <Font
+              style={{ color: colors.black, fontSize: 20, fontWeight: "100" }}
+            >
+              Go to Home
+            </Font>
+          </GoForward>
+        </Signed>
+      </Modal>
       <Terms>
         <Part>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis
@@ -109,10 +139,13 @@ const TermsScreen: React.FC<TermsScreenProps> = ({ navigation }) => {
         </Part>
       </Terms>
       <Submit>
-        <Cancel style={{ flex: 1, marginHorizontal: 5 }} onPress={goHome}>
+        <Cancel style={{ flex: 1, marginHorizontal: 5 }} onPress={goStart}>
           <Font style={{ color: colors.black }}>Cancel Signup</Font>
         </Cancel>
-        <ContinueButton style={{ flex: 1, marginHorizontal: 5 }} />
+        <ContinueButton
+          style={{ flex: 1, marginHorizontal: 5 }}
+          onPress={authenticate}
+        />
       </Submit>
     </Container>
   );
@@ -156,4 +189,21 @@ const Cancel = styled.TouchableOpacity`
   border-style: solid;
 `;
 
+const Signed = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  max-height: 400px;
+  border-radius: ${other.borderRadius}px;
+  background-color: ${colors.background};
+`;
+const GoForward = styled.TouchableOpacity`
+  border-width: 2px;
+  border-color: ${colors.primary};
+  border-style: solid;
+  border-radius: ${other.borderRadius}px;
+  width: 150px;
+  margin-top: 20px;
+  padding: 10px;
+`;
 export default TermsScreen;

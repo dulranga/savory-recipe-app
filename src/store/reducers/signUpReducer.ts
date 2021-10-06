@@ -1,8 +1,10 @@
 import { SignUpActions as Actions } from "../actions-types";
 import {
   EditCredentailsAction,
-  EditDietsAction,
+  editCustomGoalsAction,
+  EditIDAction,
 } from "../action-creators/signUpActions";
+import { produce } from "immer";
 
 const INITIAL_STATE = {
   credentials: {
@@ -20,7 +22,7 @@ const INITIAL_STATE = {
   },
 };
 export type SignUpState = typeof INITIAL_STATE;
-type Action = EditCredentailsAction | EditDietsAction;
+type Action = EditCredentailsAction | EditIDAction | editCustomGoalsAction;
 
 const signUpReducer = (
   state: SignUpState = INITIAL_STATE,
@@ -33,17 +35,15 @@ const signUpReducer = (
         credentials: { ...state.credentials, ...action.payload },
       };
     case Actions.ADD_DIET:
-      return {
-        ...state,
-        selectedDiets: [...state.selectedDiets, action.payload],
-      };
+      return produce(state, (draft) => {
+        draft.selectedDiets.push(action.payload);
+      });
     case Actions.REMOVE_DIET:
-      return {
-        ...state,
-        selectedDiets: state.selectedDiets.filter(
+      return produce(state, (draft) => {
+        draft.selectedDiets = draft.selectedDiets.filter(
           (id) => id !== action.payload
-        ),
-      };
+        );
+      });
     case Actions.ADD_DISLIKE:
       return {
         ...state,
@@ -54,10 +54,22 @@ const signUpReducer = (
         ...state,
         dislikes: state.dislikes.filter((id) => id !== action.payload),
       };
-
+    case Actions.ADD_GOAL:
+      return produce(state, (draft) => {
+        draft.goals.selected.push(action.payload);
+      });
+    case Actions.REMOVE_GOAL:
+      return produce(state, (draft) => {
+        draft.goals.selected = draft.goals.selected.filter(
+          (id) => id !== action.payload
+        );
+      });
+    case Actions.EDIT_CUSTOM_GOAL:
+      return produce(state, (draft) => {
+        draft.goals.custom = action.payload;
+      });
     default:
       return state;
   }
 };
-
 export default signUpReducer;

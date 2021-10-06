@@ -7,13 +7,16 @@ export interface ContinueButtonProps {
   onPress?: (event: GestureResponderEvent) => void;
   customText?: string;
   style?: StyleProp<ViewStyle>;
+  keyboardShown?: boolean;
 }
 
 const ContinueButton: React.FC<ContinueButtonProps> = ({
   onPress,
   customText,
   style = {},
+  keyboardShown,
 }) => {
+  if (keyboardShown) return null;
   return (
     <Continue style={style} activeOpacity={0.8} onPress={onPress}>
       <Font>{customText || "Continue"}</Font>

@@ -1,4 +1,7 @@
-import { useKeyboard } from "@react-native-community/hooks";
+import {
+  useDeviceOrientation,
+  useKeyboard,
+} from "@react-native-community/hooks";
 import React, { useState } from "react";
 import styled from "styled-components/native";
 import { colors, Fonts, other } from "../../constants";
@@ -7,6 +10,14 @@ import { Text, View } from "react-native";
 import ContinueButton from "../../components/ContinueButton";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Screens, { RootStackParamList } from "../../constants/screens";
+import { ContainerProps } from "./DietSelectorScreen";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import {
+  addGoal,
+  editGoal,
+  removeGoal,
+} from "../../store/action-creators/signUpActions";
 
 const MAX_BOX_WIDTH_GAP = 20;
 const data = [
@@ -28,13 +39,18 @@ type MotivationScreenProps = NativeStackScreenProps<
   Screens.DISLIKES
 >;
 const MotivationScreen: React.FC<MotivationScreenProps> = ({ navigation }) => {
-  const keyboard = useKeyboard();
-
+  const { keyboardShown } = useKeyboard();
+  const goals = useSelector<RootState, RootState["signUp"]["goals"]>(
+    (state) => state.signUp.goals
+  );
+  const dispatch = useDispatch();
   const goForward = () => navigation.navigate(Screens.TERMS);
+  const { portrait } = useDeviceOrientation();
+  const updateGoal = (string: string) => dispatch(editGoal(string));
 
   return (
-    <Container>
-      {!keyboard.keyboardShown && (
+    <Container portrait={portrait}>
+      {!keyboardShown && (
         <Goals
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -44,40 +60,50 @@ const MotivationScreen: React.FC<MotivationScreenProps> = ({ navigation }) => {
             <Column key={colID}>
               {column.map((row, rowID) => (
                 <Row key={rowID}>
-                  <Box>{row.name}</Box>
+                  <Box selected={goals.selected.includes(row.id)} id={row.id}>
+                    {row.name}
+                  </Box>
                 </Row>
               ))}
             </Column>
           ))}
         </Goals>
       )}
-      <WriteGoalContainer focused={keyboard.keyboardShown}>
+      <WriteGoalContainer focused={keyboardShown}>
         <WriteGoalHeader>Write your own custom goal</WriteGoalHeader>
         <WriteGoal
           multiline
           numberOfLines={100}
           placeholder="At least 50 characters"
           style={{ textAlignVertical: "top" }}
+          defaultValue={goals.custom}
+          onChangeText={updateGoal}
         />
       </WriteGoalContainer>
       <View style={{ padding: other.buttonPadding }}>
-        <ContinueButton onPress={goForward} />
+        <ContinueButton onPress={goForward} keyboardShown={keyboardShown} />
       </View>
     </Container>
   );
 };
 
-const Box: React.FC = ({ children }) => {
-  const [show, setShow] = useState(false);
-  const toggle = () => setShow((prev) => !prev);
+const Box: React.FC<{ selected: boolean; id: number }> = ({
+  children,
+  selected,
+  id,
+}) => {
+  const dispatch = useDispatch();
+  const toggle = () => dispatch(!selected ? addGoal(id) : removeGoal(id));
   return (
     <BoxContainer
       width={Math.floor(Math.random() * MAX_BOX_WIDTH_GAP) + 100}
-      clicked={show}
+      clicked={selected}
       onPress={toggle}
     >
       <LinearGradient
-        colors={show ? ["#FF784A", "#CB341D"] : [colors.white, colors.white]}
+        colors={
+          selected ? ["#FF784A", "#CB341D"] : [colors.white, colors.white]
+        }
         end={{ x: 0, y: 1 }}
         start={{ x: 1, y: 0 }}
         style={{
@@ -91,7 +117,7 @@ const Box: React.FC = ({ children }) => {
           style={{
             fontFamily: Fonts.PRIMARY,
             fontSize: 16,
-            color: show ? colors.white : colors.black,
+            color: selected ? colors.white : colors.black,
             textAlign: "center",
           }}
         >
@@ -106,6 +132,8 @@ const Container = styled.View`
   background-color: ${colors.background};
   flex: 1;
   justify-content: space-between;
+  flex-direction: ${(props: ContainerProps) =>
+    props.portrait ? "column" : "row"};
 `;
 const Goals = styled.ScrollView`
   flex: 70%;

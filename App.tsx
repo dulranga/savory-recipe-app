@@ -6,12 +6,13 @@ import {
   ScrollView,
   StatusBar as RNStatusBar,
   StyleSheet,
+  Text,
   View,
 } from "react-native";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { colors, Fonts } from "./src/constants";
 import { SignUpNavigation } from "./src/navigations";
-import store from "./src/store";
+import store, { RootState } from "./src/store";
 
 export default function App() {
   console.log("=======================");
@@ -19,6 +20,8 @@ export default function App() {
     [Fonts.PRIMARY]: require("./src/assets/fonts/inter.ttf"),
     [Fonts.PRIMARY_BOLD]: require("./src/assets/fonts/static/Inter-ExtraBold.ttf"),
   });
+
+  const isLoggedIn = store.getState().auth.logged;
 
   if (!loaded)
     return (
@@ -31,7 +34,7 @@ export default function App() {
     <Provider store={store}>
       <ScrollView contentContainerStyle={styles.container}>
         <NavigationContainer>
-          <SignUpNavigation />
+          {isLoggedIn ? <Text>NOthing</Text> : <SignUpNavigation />}
         </NavigationContainer>
       </ScrollView>
     </Provider>

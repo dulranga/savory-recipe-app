@@ -15,17 +15,17 @@ import styled from "styled-components/native";
 import { Absolute } from "../../components/Common";
 import ContinueButton from "../../components/ContinueButton";
 import { colors, Fonts, other } from "../../constants";
-import Screens, { RootStackParamList } from "../../constants/screens";
+import SignUpScreens, { RootStackParamList } from "../../constants/screens";
 import { ContainerProps } from "./DietSelectorScreen";
 type DislikesProps = NativeStackScreenProps<
   RootStackParamList,
-  Screens.DISLIKES
+  SignUpScreens.DISLIKES
 >;
 
 const DislikesScreen: React.FC<DislikesProps> = ({ navigation }) => {
   const { portrait } = useDeviceOrientation();
 
-  const goForward = () => navigation.navigate(Screens.MOTIVATIONAL);
+  const goForward = () => navigation.navigate(SignUpScreens.MOTIVATIONAL);
   return (
     <Container portrait={portrait}>
       <Ingredients decelerationRate="fast">

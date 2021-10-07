@@ -9,7 +9,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
 import ContinueButton from "../../components/ContinueButton";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import Screens, { RootStackParamList } from "../../constants/screens";
+import SignUpScreens, { RootStackParamList } from "../../constants/screens";
 import { ContainerProps } from "./DietSelectorScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -36,7 +36,7 @@ const data = [
 ];
 type MotivationScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  Screens.DISLIKES
+  SignUpScreens.DISLIKES
 >;
 const MotivationScreen: React.FC<MotivationScreenProps> = ({ navigation }) => {
   const { keyboardShown } = useKeyboard();
@@ -44,7 +44,7 @@ const MotivationScreen: React.FC<MotivationScreenProps> = ({ navigation }) => {
     (state) => state.signUp.goals
   );
   const dispatch = useDispatch();
-  const goForward = () => navigation.navigate(Screens.TERMS);
+  const goForward = () => navigation.navigate(SignUpScreens.TERMS);
   const { portrait } = useDeviceOrientation();
   const updateGoal = (string: string) => dispatch(editGoal(string));
 

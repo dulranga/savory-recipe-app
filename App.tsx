@@ -6,22 +6,33 @@ import {
   ScrollView,
   StatusBar as RNStatusBar,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
-import { Provider, useDispatch, useSelector } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { colors, Fonts } from "./src/constants";
-import { SignUpNavigation } from "./src/navigations";
+import { SignedNavigation, SignUpNavigation } from "./src/navigations";
 import store, { RootState } from "./src/store";
 
-export default function App() {
+const Root: React.FC = () => {
+  const isLoggedIn = useSelector<RootState, boolean>(
+    (state) => state.auth.logged
+  );
+  console.log(isLoggedIn);
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <NavigationContainer>
+        {isLoggedIn ? <SignedNavigation /> : <SignUpNavigation />}
+      </NavigationContainer>
+    </ScrollView>
+  );
+};
+const App = () => {
   console.log("=======================");
   const [loaded] = useFonts({
     [Fonts.PRIMARY]: require("./src/assets/fonts/inter.ttf"),
     [Fonts.PRIMARY_BOLD]: require("./src/assets/fonts/static/Inter-ExtraBold.ttf"),
   });
-
-  const isLoggedIn = store.getState().auth.logged;
 
   if (!loaded)
     return (
@@ -32,14 +43,10 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <NavigationContainer>
-          {isLoggedIn ? <Text>NOthing</Text> : <SignUpNavigation />}
-        </NavigationContainer>
-      </ScrollView>
+      <Root />
     </Provider>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -48,3 +55,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
 });
+
+export default App;

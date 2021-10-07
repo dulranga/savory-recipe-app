@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import SignupHeader from "../components/SignupHeader";
-import { Screens } from "../constants";
+import Screens from "../constants/screens";
 import {
   DietSelectorScreen,
   DislikesScreen,

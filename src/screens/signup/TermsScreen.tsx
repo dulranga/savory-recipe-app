@@ -4,18 +4,18 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components/native";
 import ContinueButton, { Font } from "../../components/ContinueButton";
 import { colors, Fonts, other } from "../../constants";
-import Screens, { RootStackParamList } from "../../constants/screens";
+import SignUpScreens, { RootStackParamList } from "../../constants/screens";
 import { login } from "../../store/action-creators/authActions";
 import Modal from "react-native-modal";
 import { Image } from "react-native";
 
 type TermsScreenProps = NativeStackScreenProps<
   RootStackParamList,
-  Screens.DISLIKES
+  SignUpScreens.DISLIKES
 >;
 const TermsScreen: React.FC<TermsScreenProps> = ({ navigation }) => {
-  const goStart = () => navigation.navigate(Screens.GO_ON_SCREEN);
-  const goHome = () => navigation.navigate(Screens.GO_ON_SCREEN);
+  const goStart = () => navigation.navigate(SignUpScreens.GO_ON_SCREEN);
+  const goHome = () => navigation.navigate(SignUpScreens.GO_ON_SCREEN);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const authenticate = () => {

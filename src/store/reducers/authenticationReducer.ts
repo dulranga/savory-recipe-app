@@ -2,6 +2,7 @@ import { AuthenticationActions as Actions } from "../actions-types";
 
 const INITIAL_STATE = {
   logged: true,
+  username: "Dulranga",
 };
 
 type AuthenticationState = typeof INITIAL_STATE;

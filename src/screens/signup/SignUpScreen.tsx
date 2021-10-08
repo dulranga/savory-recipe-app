@@ -12,8 +12,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import ContinueButton from "../../components/ContinueButton";
 import { SignInButtonProps } from "../../components/SigninButton";
-import { colors, Fonts, other, Screens } from "../../constants";
-import { RootStackParamList } from "../../constants/screens";
+import { colors, Fonts, other } from "../../constants";
+import Screens, { RootStackParamList } from "../../constants/screens";
 import { RootState } from "../../store";
 import { editCredentails } from "../../store/action-creators/signUpActions";
 import { SignUpState } from "../../store/reducers/signUpReducer";

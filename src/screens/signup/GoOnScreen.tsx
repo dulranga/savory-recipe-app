@@ -12,8 +12,8 @@ import {
 } from "react-native";
 import SignInButton, { SignInButtonProps } from "../../components/SigninButton";
 import Testimonial from "../../components/Testimonial";
-import { colors, Fonts, other, Screens } from "../../constants";
-import { RootStackParamList } from "../../constants/screens";
+import { colors, Fonts, other } from "../../constants";
+import Screens, { RootStackParamList } from "../../constants/screens";
 
 type GoOnScreenProps = NativeStackScreenProps<
   RootStackParamList,

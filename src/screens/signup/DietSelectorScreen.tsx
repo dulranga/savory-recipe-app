@@ -10,8 +10,8 @@ import RecipeMini, {
   AddedRecipe,
   RecipeMiniProps,
 } from "../../components/RecipeMini";
-import { colors, other, Screens } from "../../constants";
-import { RootStackParamList } from "../../constants/screens";
+import { colors, other } from "../../constants";
+import Screens, { RootStackParamList } from "../../constants/screens";
 import { RootState } from "../../store";
 import { addDiet, removeDiet } from "../../store/action-creators/signUpActions";
 

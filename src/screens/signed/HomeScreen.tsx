@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React from "react";
 import { FC } from "react";
 import { Image, ScrollView, View } from "react-native";
@@ -9,27 +9,38 @@ import { LongRecipeCard } from "../../components/recipes";
 import ShortRecipeCard from "../../components/recipes/ShortCard";
 import SearchBar from "../../components/SearchBar";
 import Tag from "../../components/Tag";
-import { colors, Fonts, other } from "../../constants";
+import { colors, Fonts, other, RootStackParamList } from "../../constants";
+import { SignedUpScreens as Screens } from "../../constants/screens";
 import { RootState } from "../../store";
-export interface HomeScreenProps {}
 
-const HomeScreen: React.FC<HomeScreenProps> = () => {
+export type HomeScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  Screens.HOME
+>;
+const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const rootNavigator: HomeScreenProps["navigation"] = navigation.getParent();
+
   return (
     <Container>
       <Padding>
         <SearchBar />
       </Padding>
-      <ScrollView>
+      <ScrollView scrollEventThrottle={16}>
         <WelcomeMessage />
         <Section>
           <Header title="Best Matches for You" />
           <View>
-            <LongRecipeCard />
-            <LongRecipeCard />
-            <LongRecipeCard />
-            <LongRecipeCard />
-            <LongRecipeCard />
-            <LongRecipeCard />
+            {[2, 3, 4, 2, 4].map((_, index) => (
+              <LongRecipeCard
+                onPress={() =>
+                  rootNavigator.navigate(Screens.RECIPE, {
+                    id: index,
+                  })
+                }
+                id={index}
+                key={`long.recipe.${index}`}
+              />
+            ))}
           </View>
         </Section>
 
@@ -37,9 +48,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           <Header title="Immune Support" />
           <ScrollView
             horizontal
-            pagingEnabled
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingVertical: 20,
+              padding: other.buttonPadding,
+            }}
           >
             <ShortRecipeCard />
             <ShortRecipeCard />
@@ -53,9 +67,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
           <Header title="Low Carb" />
           <ScrollView
             horizontal
-            pagingEnabled
             scrollEventThrottle={16}
             showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+              paddingVertical: 20,
+              padding: other.buttonPadding,
+            }}
           >
             <ShortRecipeCard />
             <ShortRecipeCard />
@@ -141,8 +158,6 @@ const WelcomeText = styled.Text`
   font-size: 35px;
 `;
 const Section = styled.View`
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: ${other.buttonPadding}px;
+  margin: 20px;
 `;
 export default HomeScreen;

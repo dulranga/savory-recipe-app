@@ -19,7 +19,6 @@ const TermsScreen: React.FC<TermsScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const authenticate = () => {
-    dispatch(login());
     setLoading((prev) => !prev);
   };
   return (
@@ -37,7 +36,12 @@ const TermsScreen: React.FC<TermsScreenProps> = ({ navigation }) => {
             resizeMode="contain"
           />
           <Font style={{ color: colors.black, fontSize: 35 }}>Signed In</Font>
-          <GoForward onPress={goHome}>
+          <GoForward
+            onPress={() => {
+              dispatch(login());
+              goHome();
+            }}
+          >
             <Font
               style={{ color: colors.black, fontSize: 20, fontWeight: "100" }}
             >

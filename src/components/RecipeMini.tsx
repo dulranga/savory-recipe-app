@@ -10,7 +10,6 @@ import { FontAwesome } from "@expo/vector-icons";
 import { colors, Fonts, other } from "../constants";
 import styled from "styled-components/native";
 import CheckBox from "@react-native-community/checkbox";
-// import image from "../assets/images/photo (1).svg";
 export interface RecipeMiniProps {
   image: ImageSourcePropType;
   title: string;

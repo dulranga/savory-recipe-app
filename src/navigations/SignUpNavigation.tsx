@@ -8,9 +8,8 @@ import {
   GoOnScreen,
   MotivationScreen,
   SignUpScreen,
+  TermsScreen,
 } from "../screens/signup";
-import TermsScreen from "../screens/signup/TermsScreen";
-
 interface ScreenProps {
   name: Screens;
   component: React.FC<any>;
@@ -57,7 +56,7 @@ const Stack = createNativeStackNavigator();
 
 const SignUpNavigation: React.FC<SignUpNavigationProps> = () => {
   return (
-    <Stack.Navigator initialRouteName={Screens.GO_ON_SCREEN}>
+    <Stack.Navigator>
       <Stack.Screen
         name={Screens.GO_ON_SCREEN}
         component={GoOnScreen}

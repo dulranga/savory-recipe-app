@@ -22,6 +22,7 @@ const Root: React.FC = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <NavigationContainer>
+        {/* <SignedNavigation /> */}
         {isLoggedIn ? <SignedNavigation /> : <SignUpNavigation />}
       </NavigationContainer>
     </ScrollView>

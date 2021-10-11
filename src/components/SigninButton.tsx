@@ -47,12 +47,12 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   icon: {
-    color: "#fff",
+    color: "#ffffff",
     fontSize: 25,
     position: "absolute",
     left: 0,
     marginLeft: other.buttonPadding,
   },
-  label: { color: "#fff", fontFamily: Fonts.PRIMARY, fontSize: 16 },
+  label: { color: "#ffffff", fontFamily: Fonts.PRIMARY, fontSize: 16 },
 });
 export default SignInButton;

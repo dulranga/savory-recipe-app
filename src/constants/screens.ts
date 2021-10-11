@@ -15,6 +15,7 @@ export enum SignedUpScreens {
   USER = "user",
   ADD_RECIPE = "add_recipe",
   CART = "cart",
+  TABS = "bottom_tab_navigator",
 }
 export type RootStackParamList = {
   [SignUpScreens.GO_ON_SCREEN]: undefined;
@@ -23,6 +24,10 @@ export type RootStackParamList = {
   [SignUpScreens.DISLIKES]: undefined;
   [SignUpScreens.MOTIVATIONAL]: undefined;
   [SignUpScreens.TERMS]: undefined;
+  [SignedUpScreens.HOME]: undefined;
+  [SignedUpScreens.RECIPE]: {
+    id: string | number;
+  };
 };
 
 export default SignUpScreens;

@@ -1,18 +1,36 @@
 import React, { FC } from "react";
-import { View } from "react-native";
+import { Image, View } from "react-native";
+import { SharedElement } from "react-navigation-shared-element";
 import styled from "styled-components/native";
+import { getRecipeImageID } from "../../animations/shared-ids";
 import { colors, Fonts, other } from "../../constants";
 import { Font, Price } from "../Common";
 
 const IMAGE_WIDTH = 150;
 const coveredHeight = IMAGE_WIDTH - 70;
 
-export interface ShortRecipeCardProps {}
-const ShortRecipeCard: FC<ShortRecipeCardProps> = () => {
+export interface ShortRecipeCardProps {
+  onPress?: () => void;
+  id: string | number;
+}
+const ShortRecipeCard: FC<ShortRecipeCardProps> = ({ id, onPress }) => {
   return (
     <Container>
-      <Box activeOpacity={0.8}>
-        <Cover source={require("../../assets/images/web.jpg")} />
+      <Box activeOpacity={0.8} onPress={onPress}>
+        <AbsoluteImage>
+          <SharedElement id={getRecipeImageID(id)}>
+            <Image
+              source={require("../../assets/images/web.jpg")}
+              style={{
+                width: IMAGE_WIDTH,
+                aspectRatio: 1,
+                height: "100%",
+                resizeMode: "cover",
+              }}
+            />
+          </SharedElement>
+        </AbsoluteImage>
+
         <View style={{ height: coveredHeight }}></View>
         <Font
           textAlign="center"
@@ -46,11 +64,12 @@ const Box = styled.TouchableOpacity`
   padding: ${other.buttonPadding}px;
   border-radius: ${other.borderRadius}px;
 `;
-const Cover = styled.Image`
+const AbsoluteImage = styled.View`
   position: absolute;
   top: -50px;
   width: ${IMAGE_WIDTH}px;
   height: ${IMAGE_WIDTH}px;
   border-radius: ${other.borderRadius}px;
+  overflow: hidden;
 `;
 export default ShortRecipeCard;

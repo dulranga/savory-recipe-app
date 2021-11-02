@@ -1,8 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React from "react";
-import { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Image, ScrollView, View } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import { Font, Padding } from "../../components/Common";
 import { LongRecipeCard } from "../../components/recipes";
@@ -11,7 +10,10 @@ import SearchBar from "../../components/SearchBar";
 import Tag from "../../components/Tag";
 import { colors, Fonts, other, RootStackParamList } from "../../constants";
 import { SignedUpScreens as Screens } from "../../constants/screens";
+import { IMiniRecipe } from "../../interfaces/MiniRecipe";
+import { useAPIRequest } from "../../services/RecipeMiniService";
 import { RootState } from "../../store";
+import { getFullRecipe } from "../../store/action-creators/getFullRecipe";
 
 export type HomeScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -19,6 +21,19 @@ export type HomeScreenProps = NativeStackScreenProps<
 >;
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const rootNavigator: HomeScreenProps["navigation"] = navigation.getParent();
+
+  const [popularRecipes, setPopularRecipes] = useState<IMiniRecipe[]>([]);
+  const { getPopularRecipes } = useAPIRequest();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getPopularRecipes().then((data) => setPopularRecipes(data));
+  }, []);
+
+  const navigate = (id: string) => () => {
+    dispatch(getFullRecipe(id));
+    rootNavigator.navigate(Screens.RECIPE, { id });
+  };
 
   return (
     <Container>
@@ -30,15 +45,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         <Section>
           <Header title="Best Matches for You" />
           <View>
-            {[2, 3, 4, 2, 4].map((_, index) => (
+            {popularRecipes.map((recipe, index) => (
               <LongRecipeCard
-                onPress={() =>
-                  rootNavigator.navigate(Screens.RECIPE, {
-                    id: index,
-                  })
-                }
-                id={index}
+                onPress={navigate(recipe.id)}
                 key={`long.recipe.${index}`}
+                {...recipe}
               />
             ))}
           </View>
@@ -55,7 +66,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               padding: other.buttonPadding,
             }}
           >
-            <ShortRecipeCard />
+            <ShortRecipeCard onPress={navigate(12)} id={12} />
             <ShortRecipeCard />
             <ShortRecipeCard />
             <ShortRecipeCard />
@@ -86,6 +97,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     </Container>
   );
 };
+
 const WelcomeMessage = () => {
   const username = useSelector<RootState, string>(
     (state) => state.auth.username

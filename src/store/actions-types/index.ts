@@ -12,3 +12,7 @@ export enum SignUpActions {
 export enum AuthenticationActions {
   LOGIN = "login",
 }
+
+export enum RecipeActions {
+  GET_FULL_RECIPE = "get_full_recipe",
+}

@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { StyleProp, Text, TextStyle } from "react-native";
+import { Animated, StatusBar, StyleProp, Text, TextStyle } from "react-native";
 import styled from "styled-components/native";
 import { colors, Fonts, other } from "../constants";
 
@@ -10,7 +10,7 @@ export const Absolute = styled.View`
   margin-bottom: 10px;
   align-self: center;
 `;
-export const Padding = styled.View`
+export const Padding = styled(Animated.View)`
   padding: ${({ padding }: { padding?: number }) =>
     padding || other.buttonPadding}px;
 `;
@@ -49,4 +49,15 @@ const PriceContainer = styled.View`
   background-color: #fff5d8;
   padding: 10px;
   border-radius: ${other.borderRadius}px;
+`;
+export const Hr = styled.View`
+  background-color: ${colors.grey};
+  height: 2px;
+  width: 100%;
+  margin: ${other.buttonPadding}px;
+  margin-left: 0;
+  margin-right: 0;
+`;
+export const SafeArea = styled.View`
+  padding-top: ${StatusBar.currentHeight}px;
 `;

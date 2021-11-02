@@ -5,6 +5,8 @@ import { colors, SignedUpScreens as Screens } from "../../constants";
 import HomeScreen from "./HomeScreen";
 import { StyleProp, TextStyle, View } from "react-native";
 import styled from "styled-components/native";
+import AnimationScreen from "./AnimationScreen";
+const X = () => <Ionicons name="share-social" />;
 
 export interface ScreenProps {
   name: Screens;
@@ -25,13 +27,13 @@ const screens: ScreenProps[] = [
     name: Screens.ADD_RECIPE,
     icon: "fast-food",
     iconBlurred: "fast-food-outline",
-    component: HomeScreen,
+    component: AnimationScreen,
   },
   {
     name: Screens.RECIPE,
     icon: "add",
     iconBlurred: "add-outline",
-    component: HomeScreen,
+    component: X,
     style: {
       backgroundColor: colors.primary,
       color: colors.white,
@@ -47,13 +49,13 @@ const screens: ScreenProps[] = [
     name: Screens.CART,
     icon: "cart",
     iconBlurred: "cart-outline",
-    component: HomeScreen,
+    component: X,
   },
   {
     name: Screens.USER,
     icon: "person-circle",
     iconBlurred: "person-circle-outline",
-    component: HomeScreen,
+    component: X,
     size: 35,
   },
 ];
@@ -73,13 +75,14 @@ const Tabs: React.FC<TabsProps> = () => {
           elevation: 0,
           borderTopColor: "transparent",
         },
+        tabBarHideOnKeyboard: true,
       }}
     >
       {screens.map((screen, i) => (
         <Tab.Screen
           key={i}
           name={screen.name}
-          component={HomeScreen}
+          component={screen.component}
           options={{
             tabBarIcon: (props) => <Icon {...props} screen={screen} />,
           }}

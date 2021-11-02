@@ -26,7 +26,7 @@ export type RootStackParamList = {
   [SignUpScreens.TERMS]: undefined;
   [SignedUpScreens.HOME]: undefined;
   [SignedUpScreens.RECIPE]: {
-    id: string | number;
+    id: string;
   };
 };
 

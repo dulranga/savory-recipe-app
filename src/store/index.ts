@@ -8,7 +8,12 @@ const store: Store<RootState> = createStore(
   rootReducer,
   applyMiddleware(thunk)
 );
-store.subscribe(() => console.log({ store: store.getState() }));
+
+store.subscribe(() => {
+  console.log("=================================");
+  console.log({ store: store.getState() });
+  console.log("=================================");
+});
 
 export type AppDispatch = typeof store.dispatch;
 

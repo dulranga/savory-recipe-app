@@ -6,6 +6,7 @@ import HomeScreen from "./HomeScreen";
 import { StyleProp, TextStyle, View } from "react-native";
 import styled from "styled-components/native";
 import AnimationScreen from "./AnimationScreen";
+import CartScreen from "./CartScreen";
 const X = () => <Ionicons name="share-social" />;
 
 export interface ScreenProps {
@@ -49,7 +50,7 @@ const screens: ScreenProps[] = [
     name: Screens.CART,
     icon: "cart",
     iconBlurred: "cart-outline",
-    component: X,
+    component: CartScreen,
   },
   {
     name: Screens.USER,
@@ -70,12 +71,12 @@ const Tabs: React.FC<TabsProps> = () => {
       screenOptions={{
         tabBarShowLabel: false,
         headerShown: false,
+        tabBarHideOnKeyboard: true,
         tabBarStyle: {
           height: 65,
           elevation: 0,
           borderTopColor: "transparent",
         },
-        tabBarHideOnKeyboard: true,
       }}
     >
       {screens.map((screen, i) => (

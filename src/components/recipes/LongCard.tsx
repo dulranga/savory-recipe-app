@@ -11,6 +11,7 @@ export interface LongRecipeCardProps {
 }
 
 const AUTHOR_IMAGE_SIZE = 30;
+export const ITEM_HEIGHT = 152;
 
 const LongRecipeCard: FC<LongRecipeCardProps & IMiniRecipe> = ({
   onPress,
@@ -43,15 +44,17 @@ const LongRecipeCard: FC<LongRecipeCardProps & IMiniRecipe> = ({
     </SharedElement>
   </Container>
 );
+
 const Container = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
   padding: ${other.buttonPadding}px;
   background-color: ${colors.white};
-  elevation: 30;
   z-index: 10;
   margin-top: 20px;
   border-radius: ${other.borderRadius}px;
+  border-color: ${colors.black};
+  border-width: 2px;
 `;
 const Content = styled.View`
   flex: 0.8;

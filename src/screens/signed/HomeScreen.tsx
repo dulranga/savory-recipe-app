@@ -162,7 +162,7 @@ const Header: FC<HeaderProps> = ({ title }) => {
 };
 
 const Container = styled.View`
-  background-color: ${colors.background};
+  background-color: #ffffff;
   flex: 1;
 `;
 const WelcomeText = styled.Text`

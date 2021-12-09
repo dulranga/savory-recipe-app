@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 import { Provider, useSelector } from "react-redux";
-import { SafeArea } from "./src/components/Common";
+import { StatusBar } from "expo-status-bar";
 import { colors, Fonts } from "./src/constants";
 import { SignedNavigation, SignUpNavigation } from "./src/navigations";
 import store, { RootState } from "./src/store";
@@ -19,11 +19,17 @@ const Root: React.FC = () => {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
+      <StatusBar
+        animated
+        translucent
+        backgroundColor={colors.white}
+        style="dark"
+      />
       <NavigationContainer>
         {isLoggedIn ? <SignedNavigation /> : <SignUpNavigation />}
       </NavigationContainer>
-    </ScrollView>
+    </View>
   );
 };
 const App = () => {

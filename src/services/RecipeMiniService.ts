@@ -2,6 +2,7 @@ import { useState } from "react";
 import { apiRequest } from "../constants/apiRequest";
 import fullRecipeQuery from "../constants/graphQL/fullRecipe";
 import { popularRecipes } from "../constants/graphQL/popularRecipes";
+import { searchRecipeQuery } from "../constants/graphQL/searchRecipe";
 
 export const useAPIRequest = () => {
   const [loading, setLoading] = useState(true);
@@ -58,4 +59,17 @@ export const getRecipeByID = async (id: string) => {
     });
     return res.data?.recipe;
   } catch (error) {}
+};
+export const searchRecipes = async (term: string) => {
+  const res = await apiRequest({
+    data: {
+      query: searchRecipeQuery,
+      variables: { term },
+    },
+  });
+  const data = !res.error
+    ? res.data?.recipeSearch?.edges?.map((edge: any) => edge?.node)
+    : [];
+
+  return data;
 };

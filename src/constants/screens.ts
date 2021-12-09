@@ -16,6 +16,7 @@ export enum SignedUpScreens {
   ADD_RECIPE = "add_recipe",
   CART = "cart",
   TABS = "bottom_tab_navigator",
+  SEARCH_RECIPE = "search_recipe",
 }
 export type RootStackParamList = {
   [SignUpScreens.GO_ON_SCREEN]: undefined;
@@ -25,6 +26,9 @@ export type RootStackParamList = {
   [SignUpScreens.MOTIVATIONAL]: undefined;
   [SignUpScreens.TERMS]: undefined;
   [SignedUpScreens.HOME]: undefined;
+  [SignedUpScreens.SEARCH_RECIPE]: {
+    term: string;
+  };
   [SignedUpScreens.RECIPE]: {
     id: string;
   };

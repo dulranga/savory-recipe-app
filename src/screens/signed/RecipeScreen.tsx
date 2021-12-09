@@ -1,10 +1,11 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { FC, useEffect, useRef } from "react";
-import { Animated, FlatList, Image, View } from "react-native";
+import { Animated, Dimensions, FlatList, Image, View } from "react-native";
 import { SharedElement } from "react-navigation-shared-element";
 import { useSelector } from "react-redux";
 import styled from "styled-components/native";
+import { VictoryPie } from "victory-native";
 import { getRecipeImageID } from "../../animations/shared-ids";
 import { Font, Hr, Padding } from "../../components/Common";
 import Ingredient from "../../components/recipes/Ingredient";
@@ -24,10 +25,10 @@ export type RecipeScreenProps = NativeStackScreenProps<
   Screens.RECIPE
 >;
 
+const PIE_CHART_WIDTH = 150;
 const IMAGE_HEIGHT = 300;
 const opacity = new Animated.Value(0);
 const AnimatedIcon = Animated.createAnimatedComponent(Ionicons);
-
 const RecipeScreen: FC<RecipeScreenProps> = ({ route, navigation }) => {
   const { id } = route.params;
 
@@ -73,6 +74,12 @@ const RecipeScreen: FC<RecipeScreenProps> = ({ route, navigation }) => {
     outputRange: [50, 0],
   });
 
+  const nutrients = Object.entries(recipe.nutrientsPerServing || []).flatMap(
+    (nutrientData) => ({
+      x: nutrientData[0],
+      y: nutrientData[1],
+    })
+  );
   return (
     <View>
       <TopButtons style={{ backgroundColor }}>
@@ -92,12 +99,12 @@ const RecipeScreen: FC<RecipeScreenProps> = ({ route, navigation }) => {
             textAlign: "center",
           }}
         >
-          Seafood Pasta with Clams & Chili
+          {recipe.name}
         </Animated.Text>
 
         <AnimatedIcon name="heart-outline" style={{ color }} size={30} />
       </TopButtons>
-      <Animated.View onScroll={onScroll}>
+      <Animated.ScrollView onScroll={onScroll}>
         <SharedElement id={getRecipeImageID(id)}>
           <Animated.Image
             source={{ uri: recipe.mainImage }}
@@ -170,13 +177,11 @@ const RecipeScreen: FC<RecipeScreenProps> = ({ route, navigation }) => {
 
           <View>
             <Font fontSize={30} marginBottom={20}>
-              Ingredients
+              Ingredients {recipe?.ingredientsCount}
             </Font>
             <FlatList
               data={recipe?.ingredients}
-              renderItem={({ item, index }) => (
-                <Ingredient key={index} {...item} />
-              )}
+              renderItem={({ item, index }) => <Ingredient {...item} />}
               keyExtractor={({ name }, index) => name + index}
               showsVerticalScrollIndicator={false}
             />
@@ -222,10 +227,32 @@ const RecipeScreen: FC<RecipeScreenProps> = ({ route, navigation }) => {
               />
             </View>
           )}
+          <View style={{ flexDirection: "row" }}>
+            <VictoryPie
+              data={nutrients}
+              innerRadius={40}
+              colorScale="qualitative"
+              animate={{
+                duration: 1000,
+                easing: "bounce",
+              }}
+              width={PIE_CHART_WIDTH}
+              startAngle={0}
+              // radius={({ datum }) => {
+              //   const height = Math.abs(datum.y * 10);
+              //   console.log(
+              //     height < PIE_CHART_WIDTH ? height : PIE_CHART_WIDTH
+              //   );
+              //   return height < PIE_CHART_WIDTH ? height : PIE_CHART_WIDTH;
+              // }}
+              radius={70}
+            />
+            <Font>Hello</Font>
+          </View>
 
-          {/* <Font>{JSON.stringify(recipe)}</Font> */}
+          <Font>{JSON.stringify(recipe)}</Font>
         </Padding>
-      </Animated.View>
+      </Animated.ScrollView>
     </View>
   );
 

@@ -11,12 +11,19 @@ export interface IFullRecipe {
   instructions: string[];
   squareImage: string;
   ingredients: IngredientProps[];
-
+  ingredientsCount: number;
   text: string;
   nutritionalInfo: {
     calories: number;
     protein: number;
     carbs: number;
+    fat: number;
+  };
+
+  nutrientsPerServing: {
+    fiber: number;
+    carbs: number;
+    protein: number;
     fat: number;
   };
 }

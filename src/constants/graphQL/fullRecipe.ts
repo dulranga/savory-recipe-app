@@ -14,9 +14,17 @@ const fullRecipeQuery = `query GetRecipe($id:ID!){
       carbs
       fat
     }
+    nutrientsPerServing {
+      fiber
+      carbs
+      protein
+      fat      
+    }
     totalTime
     instructions
     squareImage
+    ingredientsCount
+
     ingredients {
       name
       cpc

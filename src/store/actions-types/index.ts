@@ -15,4 +15,5 @@ export enum AuthenticationActions {
 
 export enum RecipeActions {
   GET_FULL_RECIPE = "get_full_recipe",
+  SEARCH_RECIPE = "search_recipe",
 }

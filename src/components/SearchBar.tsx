@@ -1,24 +1,62 @@
-import React from "react";
-import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
-import { colors, Fonts, other } from "../constants";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import React from "react";
+import {
+  NativeSyntheticEvent,
+  TextInputSubmitEditingEventData,
+  View,
+} from "react-native";
+import { useDispatch } from "react-redux";
+import styled from "styled-components/native";
+import {
+  colors,
+  Fonts,
+  other,
+  RootStackParamList,
+  SignedUpScreens,
+} from "../constants";
+import { searchRecipe } from "../store/action-creators/searchFullRecipe";
+
 export interface SearchBarProps {}
 
+type Navigation = NavigationProp<
+  RootStackParamList,
+  SignedUpScreens.SEARCH_RECIPE
+>;
+
 const SearchBar: React.FC<SearchBarProps> = () => {
+  const dispatch = useDispatch();
+  const { navigate } = useNavigation<Navigation>();
+
+  const submitQuery = (
+    e: NativeSyntheticEvent<TextInputSubmitEditingEventData>
+  ) => {
+    const term = e.nativeEvent.text;
+
+    dispatch(searchRecipe(term));
+    navigate(SignedUpScreens.SEARCH_RECIPE, { term });
+  };
+
   return (
-    <Box>
-      <Ionicons
-        name="search"
-        style={{
-          position: "absolute",
-          left: 5,
-          alignSelf: "center",
-        }}
-        color={colors.fontSecondary}
-        size={25}
-      />
-      <Input placeholder="Type a Restaurant Name" textAlign="center" />
-    </Box>
+    <View>
+      <Box>
+        <Ionicons
+          name="search"
+          style={{
+            position: "absolute",
+            left: 5,
+            alignSelf: "center",
+          }}
+          color={colors.fontSecondary}
+          size={25}
+        />
+        <Input
+          placeholder="Type a Restaurant Name"
+          textAlign="center"
+          onSubmitEditing={submitQuery}
+        />
+      </Box>
+    </View>
   );
 };
 
